@@ -1,0 +1,6 @@
+[submodule ".OpenGLSandBox/vendors/glfw"]
+	path = .OpenGLSandBox/vendors/glfw
+	url = https://github.com/alimilhim/glfw
+[submodule "OpenGLSandBox/vendors/glfw"]
+	path = OpenGLSandBox/vendors/glfw
+	url = https://github.com/alimilhim/glfw
