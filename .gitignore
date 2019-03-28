@@ -1,4 +1,9 @@
 .vs/
-/bin/
 /bin-int/
 bin-int
+/bin/x64/Release/*
+/bin/x64/Debug/*
+!/bin/x64/Release/assimp.dll
+!/bin/x64/Debug/assimp.dll
+!/bin/x64/Release/FreeImage.dll
+!/bin/x64/Debug/FreeImage.dll
