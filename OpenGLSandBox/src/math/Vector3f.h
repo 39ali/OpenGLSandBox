@@ -52,7 +52,12 @@
 	}
 
 	inline Vector3f Vector3f::normalize() const {
-		return Vector3f(*this) / length();
+
+		float len = length();
+		if (len > 0.0f)
+			return Vector3f(*this) / length();
+		else
+			return Vector3f(*this);
 	}
 
 	inline float Vector3f::length() const { return sqrt(x * x + y * y + z * z); }

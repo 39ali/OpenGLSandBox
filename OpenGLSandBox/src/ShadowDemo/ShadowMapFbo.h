@@ -1,6 +1,6 @@
 #pragma once
-#include <glad/glad.h>
-class ShadowMapFbo {
+#include <glad\glad.h>
+class ShadowMapFbo  {
 public:
 	ShadowMapFbo();
 	~ShadowMapFbo();

@@ -112,7 +112,7 @@ void Mesh::InitMaterials(const aiScene *pScene, const std::string &filename) {
 		// load white-texture incase the model does not have one 
 		else
 		{
-			m_Textures[i] = TextureFactory::CreateTexture("../rec/test.png");
+			m_Textures[i] = {(unsigned int) -1 };
 			printf("Loaded texture '%s' \n", "../rec/test.png");
 		}
 	}
@@ -136,8 +136,10 @@ void Mesh::Render()
 
 
 		const unsigned int MatIndex = m_entries[i].MateriaIndex;
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_Textures[MatIndex].TexID);
+		if (MatIndex !=(unsigned int) -1) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, m_Textures[MatIndex].TexID);
+		}
 		glDrawElements(GL_TRIANGLES, m_entries[i].NumIndices, GL_UNSIGNED_INT, 0);
 	}
 	glDisableVertexAttribArray(0);

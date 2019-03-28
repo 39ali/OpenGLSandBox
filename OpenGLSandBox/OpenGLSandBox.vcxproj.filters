@@ -36,6 +36,12 @@
     <ClCompile Include="src\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ShadowDemo\ShadowMapDemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShadowDemo\ShadowMapFbo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\math\Vector3f.h">
@@ -71,6 +77,18 @@
     <ClInclude Include="src\TextureFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ShadowDemo\ShadowMapDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShadowDemo\ShadowMapFbo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\shader.vs" />
@@ -79,5 +97,7 @@
     <None Include="shader\shader.fs" />
     <None Include="rec\shader\shader.vs" />
     <None Include="rec\shader\shader.fs" />
+    <None Include="src\ShadowDemo\shaders\ShadowMap.vs" />
+    <None Include="src\ShadowDemo\shaders\ShadowMap.fs" />
   </ItemGroup>
 </Project>

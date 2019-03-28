@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include "Core.h"
+#include <assert.h>
 class Shader {
 public:
   Shader(const std::string &Vertexlocation,
@@ -43,7 +44,7 @@ private:
 		  glGetProgramInfoLog(m_ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
 		  fprintf(stderr, "Error Linking Program : '%s'\n", 
 			  ErrorLog);
-		
+		  assert(0);
 		  glDeleteProgram(m_ShaderProgram);
 		  glDeleteShader(m_Shaders[0]);
 		  glDeleteShader(m_Shaders[1]);
@@ -88,10 +89,11 @@ private:
       std::string temp;
 	  std::ostringstream iss;
     
-	if(f.is_open())
+	  assert(f.is_open());
 		while (std::getline(f,temp)) {
 			iss << temp << "\n";
 		}   
+	
     return iss.str();
   }
  

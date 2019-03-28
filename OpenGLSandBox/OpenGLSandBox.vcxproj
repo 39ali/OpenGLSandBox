@@ -17,9 +17,12 @@
     <ClCompile Include="src\math\Vector2f.cpp" />
     <ClCompile Include="src\math\Vector3f.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\ShadowDemo\ShadowMapDemo.cpp" />
+    <ClCompile Include="src\ShadowDemo\ShadowMapFbo.cpp" />
     <ClCompile Include="src\TextureFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\math\Color.h" />
@@ -30,7 +33,10 @@
     <ClInclude Include="src\math\Vector3f.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\ShadowDemo\ShadowMapDemo.h" />
+    <ClInclude Include="src\ShadowDemo\ShadowMapFbo.h" />
     <ClInclude Include="src\TextureFactory.h" />
+    <ClInclude Include="src\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="rec\shader\shader.fs" />
@@ -39,12 +45,14 @@
     <None Include="shader\shader.vs" />
     <None Include="src\shader\shader.fs" />
     <None Include="src\shader\shader.vs" />
+    <None Include="src\ShadowDemo\shaders\ShadowMap.fs" />
+    <None Include="src\ShadowDemo\shaders\ShadowMap.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5EA4BDEC-52BD-47D1-B98D-D384B7B05E61}</ProjectGuid>
     <RootNamespace>OpenGLSandBox</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
