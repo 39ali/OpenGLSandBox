@@ -95,6 +95,6 @@ public :
 	float m_AngleH;
 	float m_AngleV;
 private:
-	float m_Speed = 2.5;
+	float m_Speed = 25.5;
 	vec3 m_MousePos;
 };

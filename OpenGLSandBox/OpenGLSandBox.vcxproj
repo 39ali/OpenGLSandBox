@@ -16,6 +16,8 @@
     <ClCompile Include="src\math\Quaternion.cpp" />
     <ClCompile Include="src\math\Vector2f.cpp" />
     <ClCompile Include="src\math\Vector3f.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\TextureFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
@@ -26,7 +28,9 @@
     <ClInclude Include="src\math\Quaternion.h" />
     <ClInclude Include="src\math\Vector2f.h" />
     <ClInclude Include="src\math\Vector3f.h" />
+    <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\TextureFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="rec\shader\shader.fs" />
@@ -71,18 +75,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin/$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin-int/$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(ProjectDir)vendors/glfw/include/;$(ProjectDir)vendors/GLAD/include/;$(ProjectDir)vendors/FreeImage/;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)vendors/glfw/include/;$(ProjectDir)vendors/GLAD/include/;$(ProjectDir)vendors/FreeImage/;$(ProjectDir)vendors/ASSIMP/include/;$(IncludePath)</IncludePath>
     <SourcePath>
     </SourcePath>
-    <LibraryPath>$(ProjectDir)vendors/glfw/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/GLAD/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/FreeImage/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)vendors/glfw/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/GLAD/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/FreeImage/;$(ProjectDir)vendors/ASSIMP/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin/$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin-int/$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(ProjectDir)vendors/glfw/include/;$(ProjectDir)vendors/GLAD/include/;$(ProjectDir)vendors/FreeImage/;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)vendors/glfw/include/;$(ProjectDir)vendors/GLAD/include/;$(ProjectDir)vendors/FreeImage/;$(ProjectDir)vendors/ASSIMP/include/;$(IncludePath)</IncludePath>
     <SourcePath>
     </SourcePath>
-    <LibraryPath>$(ProjectDir)vendors/glfw/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/GLAD/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/FreeImage/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)vendors/glfw/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/GLAD/bin/$(Platform)/$(configuration)/;$(ProjectDir)vendors/FreeImage/;$(ProjectDir)vendors/ASSIMP/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -93,7 +97,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;GLAD.lib;GLFW.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;GLAD.lib;GLFW.lib;FreeImage.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -109,7 +113,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;GLAD.lib;GLFW.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;GLAD.lib;GLFW.lib;FreeImage.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
