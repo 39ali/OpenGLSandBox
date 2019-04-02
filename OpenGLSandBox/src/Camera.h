@@ -2,6 +2,7 @@
 #include "math/Vector3f.h"
 #include <GLFW/glfw3.h>
 #include "math/Quaternion.h"
+#include "math\CommonMath.h"
 class Camera {
 public :
 	Camera():m_Origin(0,0,-3), m_Target(0,0,1), m_Up(0,1,0) {
@@ -10,12 +11,14 @@ public :
 	Camera(const vec3& origin ,const vec3& target, const vec3& up,int width, int height) 
 		:m_Origin(origin),m_Target(target),m_Up(up)
 	{
+
 		Init(width,height);
 	}
 
 	
 	void Update( GLFWwindow* window , float timeStep) {
 		
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS) {
 			m_Origin += (m_Target)*timeStep*m_Speed;
 		}
@@ -39,8 +42,13 @@ public :
 
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
-		const float deltaX = xpos - m_MousePos.x;
-		const float deltaY = ypos - m_MousePos.y;
+		 float deltaX = xpos - m_MousePos.x;
+		 float deltaY = ypos - m_MousePos.y;
+		if (m_First) {
+			deltaY = 0.0f;
+			deltaX = -90.0 * 5;;
+			m_First = false;
+		}
 		m_MousePos.x = xpos;
 		m_MousePos.y = ypos;
 		m_AngleH += (float)deltaX/5;
@@ -97,4 +105,5 @@ public :
 private:
 	float m_Speed = 25.5;
 	vec3 m_MousePos;
+	bool m_First = true;
 };

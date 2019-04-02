@@ -42,6 +42,9 @@
     <ClCompile Include="src\ShadowDemo\ShadowMapFbo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ShadowMapPointLight\SHadowMapPointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\math\Vector3f.h">
@@ -89,6 +92,12 @@
     <ClInclude Include="src\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ShadowMapPointLight\ShadowMapPointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShadowMapPointLight\ShadowMapPointFbo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\shader.vs" />
@@ -99,5 +108,7 @@
     <None Include="rec\shader\shader.fs" />
     <None Include="src\ShadowDemo\shaders\ShadowMap.vs" />
     <None Include="src\ShadowDemo\shaders\ShadowMap.fs" />
+    <None Include="src\ShadowMapPointLight\Shaders\ShadowMap.vs" />
+    <None Include="src\ShadowMapPointLight\Shaders\ShadowMap.fs" />
   </ItemGroup>
 </Project>

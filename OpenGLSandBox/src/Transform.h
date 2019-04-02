@@ -31,6 +31,18 @@ class Transform {
     return Transform;
   }
 
+  Matrix4f GetWorldTransform() {
+	  Matrix4f Scale, Rotate, Translate, Camera, Transform;
+
+	  Translate.makeTranslate(m_Translate);
+	  Rotate.makeRotateTransform(m_Rotate);
+	  Scale.makeScale(m_Scale);
+	  Camera.makeCameraTransform(m_Camera.m_Origin, m_Camera.m_Target,
+		  m_Camera.m_Up);
+	  Transform =   Translate * Rotate * Scale;
+	  return Transform;
+  }
+
  private:
   vec3 m_Translate;
   vec3 m_Rotate;

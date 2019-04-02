@@ -53,15 +53,27 @@ public :
 		 glEnable(GL_DEPTH_TEST);
 	 }
 
+	 virtual ~Application() {
+	 
+		 delete m_Camera;
+		 glfwDestroyWindow(m_Window);
+	
+	 }
+
 	 virtual void Init() {
-		 m_Camera = new Camera({ 0, 0, -13 }, { 0, 0, 0 }, { 0, 1, 0 }, m_Width, m_Height);
+		 m_Camera = new Camera({ 0, 5, -30 }, { 0, 0, 0 }, { 0, 1, 0 }, m_Width, m_Height);
 	 };
   virtual void Render() = 0;
   virtual void Update() {
-	//  printf("yppppppppppppppppppppppppp");
 	  m_Camera->Update(m_Window, 1.0f / 60.f); 
   }
 
+
+  inline void SetCamera(const vec3& origin ,const vec3& target , const vec3& up) {
+	  delete m_Camera;
+	  m_Camera = new Camera(origin, target, up, m_Width, m_Height);
+
+  }
 
   unsigned int m_Width, m_Height;
   Camera* m_Camera = nullptr;

@@ -13,6 +13,10 @@ ShadowMapFbo::~ShadowMapFbo() {
 void ShadowMapFbo::Init(unsigned int WindowWidth, unsigned int windowHeight) 
 {
 	glGenFramebuffers(1, &m_Fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_Fbo);
+
+	glGenRenderbuffers(1, &m_Rbo);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_Fbo);
 
 	glGenTextures(1, &m_ShadowMap);
 	glBindTexture(GL_TEXTURE_2D, m_ShadowMap);
@@ -23,7 +27,10 @@ void ShadowMapFbo::Init(unsigned int WindowWidth, unsigned int windowHeight)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, m_Fbo);
+	
+
+
+
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_ShadowMap, 0);
 
 	//disable color buffer
@@ -43,8 +50,9 @@ void ShadowMapFbo::Init(unsigned int WindowWidth, unsigned int windowHeight)
 void ShadowMapFbo::BindForWriting() {
 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_Fbo);
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 void ShadowMapFbo::BindForReading(GLenum TexUnit){
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(TexUnit);
 	glBindTexture(GL_TEXTURE_2D, m_ShadowMap);
 }

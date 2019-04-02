@@ -9,5 +9,6 @@ public:
 	void BindForReading(GLenum TexUnit);
 private:
 	GLuint m_Fbo;
+	GLuint m_Rbo;
 	GLuint m_ShadowMap;
 };

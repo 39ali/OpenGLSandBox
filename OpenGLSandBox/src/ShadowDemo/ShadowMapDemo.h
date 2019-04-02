@@ -16,6 +16,7 @@ public :
 private:
 	virtual void Update() override;
 	void Render() override;
+	void RenderModels();
 	void ShadowPass();
 	void RenderPass();
 private:
@@ -27,7 +28,9 @@ private:
 	
 	Mesh  m_QuadMesh , m_ModelMesh;
 	ShadowMapFbo m_ShadowMapFbo;
-	vec3 m_spotLightDir = { 1.0, -1.0, 5.0f };
+	vec3 m_spotLightDir = { 1.0, -1.0, 0.0f };
 	vec3 m_spotLightPos = { -20.0, 20.0, 5.0f };
-	Transform m_Transform;
+	Transform m_ModelTransfrom;
+	Transform m_PlaneTransform;
+	Texture m_cement;
 };

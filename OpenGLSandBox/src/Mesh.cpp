@@ -113,7 +113,7 @@ void Mesh::InitMaterials(const aiScene *pScene, const std::string &filename) {
 		else
 		{
 			m_Textures[i] = {(unsigned int) -1 };
-			printf("Loaded texture '%s' \n", "../rec/test.png");
+			printf("Mesh has no Textures\n");
 		}
 	}
 }
@@ -136,7 +136,7 @@ void Mesh::Render()
 
 
 		const unsigned int MatIndex = m_entries[i].MateriaIndex;
-		if (MatIndex !=(unsigned int) -1) {
+		if (m_Textures[MatIndex].TexID !=(unsigned int) -1) {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m_Textures[MatIndex].TexID);
 		}

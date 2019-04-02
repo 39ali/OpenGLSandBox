@@ -19,6 +19,7 @@
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\ShadowDemo\ShadowMapDemo.cpp" />
     <ClCompile Include="src\ShadowDemo\ShadowMapFbo.cpp" />
+    <ClCompile Include="src\ShadowMapPointLight\SHadowMapPointLight.cpp" />
     <ClCompile Include="src\TextureFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +36,8 @@
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\ShadowDemo\ShadowMapDemo.h" />
     <ClInclude Include="src\ShadowDemo\ShadowMapFbo.h" />
+    <ClInclude Include="src\ShadowMapPointLight\ShadowMapPointFbo.h" />
+    <ClInclude Include="src\ShadowMapPointLight\ShadowMapPointLight.h" />
     <ClInclude Include="src\TextureFactory.h" />
     <ClInclude Include="src\Transform.h" />
   </ItemGroup>
@@ -47,6 +50,8 @@
     <None Include="src\shader\shader.vs" />
     <None Include="src\ShadowDemo\shaders\ShadowMap.fs" />
     <None Include="src\ShadowDemo\shaders\ShadowMap.vs" />
+    <None Include="src\ShadowMapPointLight\Shaders\ShadowMap.fs" />
+    <None Include="src\ShadowMapPointLight\Shaders\ShadowMap.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
