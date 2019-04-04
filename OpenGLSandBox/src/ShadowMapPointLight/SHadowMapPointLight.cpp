@@ -4,6 +4,8 @@
 ShadowMapPointLight::ShadowMapPointLight():Application(800, 600, "ShadowMapDemo") {
 
 	m_ShadowShader = new Shader{ "src/ShadowMapPointLight/Shaders/ShadowMap.vs", "src/ShadowMapPointLight/Shaders/ShadowMap.fs" };
+	m_LightingShader = new Shader{ "src/ShadowMapPointLight/Shaders/Lighting.vs", "src/ShadowMapPointLight/Shaders/Lighting.fs" };
+	
 	m_ShadowShader->Use();
 	m_ShadowMapFbo.Init(800, 600);
 
@@ -20,6 +22,12 @@ ShadowMapPointLight::ShadowMapPointLight():Application(800, 600, "ShadowMapDemo"
 	m_PointLight.Color = { 1.0f,1.f,1.f };
 	m_PointLight.Attenuation.Linear = 0.0f;
 	m_PointLight.Position = { 0.0f,5.0f,0.0f };
+
+}
+
+ShadowMapPointLight::~ShadowMapPointLight() {
+	delete m_ShadowShader;
+	delete m_LightingShader;
 
 }
 void ShadowMapPointLight::Init() {
@@ -86,7 +94,7 @@ void ShadowMapPointLight::RenderPass() {
 
    glActiveTexture(GL_TEXTURE0);
 	m_QuadMesh.Render();
-
+	m_ModelMesh.Render();
 
 
 }

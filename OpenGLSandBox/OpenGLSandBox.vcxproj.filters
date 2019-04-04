@@ -110,5 +110,7 @@
     <None Include="src\ShadowDemo\shaders\ShadowMap.fs" />
     <None Include="src\ShadowMapPointLight\Shaders\ShadowMap.vs" />
     <None Include="src\ShadowMapPointLight\Shaders\ShadowMap.fs" />
+    <None Include="src\ShadowMapPointLight\Shaders\Lighting.vs" />
+    <None Include="src\ShadowMapPointLight\Shaders\Lighting.fs" />
   </ItemGroup>
 </Project>

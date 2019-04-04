@@ -12,7 +12,7 @@ class ShadowMapPointLight : public Application {
  public:
   ShadowMapPointLight();
   void Init() override;
-
+  ~ShadowMapPointLight();
  private:
   virtual void Update() override;
   void Render() override;
@@ -24,6 +24,7 @@ class ShadowMapPointLight : public Application {
   GLuint m_WVPlocation;
   GLuint m_TextureLocation;
   Shader* m_ShadowShader = nullptr;
+  Shader* m_LightingShader = nullptr;
 
   Mesh m_QuadMesh, m_ModelMesh;
   ShadowMapPointFbo m_ShadowMapFbo;
