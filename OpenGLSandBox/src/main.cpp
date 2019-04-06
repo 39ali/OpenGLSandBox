@@ -1,5 +1,5 @@
 
-#include "ShadowDemo\ShadowMapDemo.h"
+//#include "ShadowDemo\ShadowMapDemo.h"
 #include "ShadowMapPointLight\ShadowMapPointLight.h"
 int main() {
 

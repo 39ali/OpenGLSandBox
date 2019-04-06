@@ -15,62 +15,78 @@ public:
 	}
 
 	void Init(unsigned int width, unsigned int height) {
-		glGenFramebuffers(1, &m_Fbo);
+		m_ShadowWidth = width;
+		m_ShadowHeight = height;
+		//glGenFramebuffers(1, &m_Fbo);
+		//CheckERR();
+		////create the depth buffer
+		//glGenTextures(1, &m_Depth);
+		//glBindTexture(GL_TEXTURE_2D, m_Depth);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		//glBindTexture(GL_TEXTURE_2D, 0);
 
-		//create the depth buffer
-		glGenTextures(1, &m_Depth);
-		glBindTexture(GL_TEXTURE_2D, m_Depth);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glBindTexture(GL_TEXTURE_2D, 0);
-
-		glBindFramebuffer(GL_FRAMEBUFFER, m_Fbo);
+		//CheckERR();
 
 
 		//create the cubemap
-
-		glGenTextures(0, &m_ShadowMap);
+		
+	    glGenTextures(1, &m_ShadowMap);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_ShadowMap);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-		for (uint32_t i = 0; i < 6; i++)
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_R32F, width, height, 0, GL_RED, GL_FLOAT, NULL);
-
+	
+		CheckERR();
+		for (uint32_t i = 0; i < 6; i++) {
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0,GL_DEPTH_COMPONENT,  width, height,
+				0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+			CheckERR();
+		}
 		glBindFramebuffer(GL_FRAMEBUFFER, m_Fbo);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_Depth, 0);
-
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,m_Depth, 0);
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
-
+		CheckERR();
 		GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 		if (status != GL_FRAMEBUFFER_COMPLETE) {
 			assert(0);
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+		
+		CheckERR();
 	}
 
 	void BindForWriting(GLenum face) {
+		glViewport(0, 0, m_ShadowWidth, m_ShadowHeight);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_Fbo);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, face, m_ShadowMap, 0);
-		glDrawBuffer(GL_COLOR_ATTACHMENT0);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		
+		CheckERR();
+
 	}
 
-	void BindForReading(GLenum texunit){
+	void BindForReading(GLenum texunit , unsigned int srcWidth , unsigned int srcHeight){
+		
+		glViewport(0, 0, srcWidth, srcHeight);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glActiveTexture(texunit);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_ShadowMap);
-	
+		CheckERR();
+
 	}
+
+	vec2 GetShadowMapSize()const { return {m_ShadowWidth,m_ShadowHeight}; }
+
 private :
 GLuint	m_Fbo;
 GLuint m_ShadowMap;
 GLuint m_Depth;
-
+unsigned int m_ShadowWidth, m_ShadowHeight;
 };

@@ -16,16 +16,32 @@ public:
 	LinkProgram();
   }
   ~Shader() {
-	  ERR(glDeleteProgram(m_ShaderProgram));
-	  ERR(glDeleteShader(m_Shaders[0]));
-	  ERR(glDeleteShader(m_Shaders[1]));
+	  glDeleteProgram(m_ShaderProgram);
+	  CheckERR();
+	  glDeleteShader(m_Shaders[0]);
+	  CheckERR();
+	  glDeleteShader(m_Shaders[1]);
+	  CheckERR();
   }
 
   void Use() {
-	  ERR(glUseProgram(m_ShaderProgram));
+	  glUseProgram(m_ShaderProgram);
+	  CheckERR();
   }
   GLuint GetProgram() const {
 	  return m_ShaderProgram;
+  }
+
+  void Validate() const {
+	  GLint Success = 0;
+	  GLchar ErrorLog[1024] = { 0 };
+	  glValidateProgram(m_ShaderProgram);
+	  glGetProgramiv(m_ShaderProgram, GL_VALIDATE_STATUS, &Success);
+	  if (!Success) {
+		  glGetProgramInfoLog(m_ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
+		  fprintf(stderr, "Invalid shader program: '%s' \n", ErrorLog);
+	  }
+	  CheckERR();
   }
 
 private:
@@ -50,13 +66,6 @@ private:
 		  glDeleteShader(m_Shaders[1]);
 		  return;
 	  }
-
-	  glValidateProgram(m_ShaderProgram);
-	  glGetProgramiv(m_ShaderProgram, GL_VALIDATE_STATUS, &Success);
-	  if (!Success) {
-		  glGetProgramInfoLog(m_ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
-		  fprintf(stderr, "Invalid shader program: '%s' \n", ErrorLog);
-	  }
   }
   //read shader from file ,compile and attach to program
   GLuint AddShader(const std::string &location, GLenum shaderType) {
@@ -64,26 +73,29 @@ private:
 	 GLuint shaderID = glCreateShader(shaderType);
 	std::string text= ReadShaderFromFile(location);
 	const char* ptext = text.c_str();
-   ERR( glShaderSource(shaderID, 1, &ptext, NULL));
-   ERR(glCompileShader(shaderID));
-	
+    glShaderSource(shaderID, 1, &ptext, NULL);
+   glCompileShader(shaderID);
+   CheckERR();
 	
     GLint success;
-	ERR(glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success));
+	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
     if (success==GL_FALSE) {
 		GLint maxLength = 0;
 		glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
 		std::vector<GLchar> InfoLog(maxLength);
 	
       glGetShaderInfoLog(shaderID, maxLength,&maxLength, &InfoLog[0]);
-      fprintf(stderr, "Error compiling shader type %d: '%s'\n", shaderType,
+      fprintf(stderr, "Error compiling shader '%s': '%s'\n", location.c_str(),
               &InfoLog[0]);
     }
-	ERR(glAttachShader(m_ShaderProgram, shaderID));
+	glAttachShader(m_ShaderProgram, shaderID);
 
-	
+	CheckERR();
 	return shaderID;
   }
+
+
+
   std::string ReadShaderFromFile(const std::string &loc) {
 	  std::ifstream f(loc.c_str());
       std::string temp;
@@ -101,4 +113,5 @@ private:
 private:
   GLuint m_ShaderProgram;
   GLuint m_Shaders[2];
+  
 };

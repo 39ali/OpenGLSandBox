@@ -7,11 +7,15 @@
 #include "Core.h"
 #include "math\Matrix4f.h"
 #include "math\Vector3f.h"
+#include <iostream>
 class Application {
 
 public :
-	
+
 	void Run() {
+
+		
+
 		Application::Init();
 		Init();
 		while (!glfwWindowShouldClose(m_Window)) {
@@ -47,10 +51,12 @@ public :
 		 cc[2] = glGetString(GL_VENDOR);
 		 printf("openGL:%s , shaderVersion:%s , vendor:%s \n", cc[0], cc[1], cc[2]);
 
+		 CheckERR();
 		 glFrontFace(GL_CW);
 		 glCullFace(GL_BACK);
 		 glEnable(GL_CULL_FACE);
 		 glEnable(GL_DEPTH_TEST);
+		 CheckERR();
 	 }
 
 	 virtual ~Application() {

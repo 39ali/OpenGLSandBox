@@ -3,17 +3,16 @@
 #include <cstdio>
 
 #ifdef _DEBUG
-#define ERR(x) \
+#define CheckERR() \
 { \
- x; \
  GLenum err; \
  while((err= glGetError())!=GL_NO_ERROR) \
-	   {printf("OpenGL Error number:0x%x\n",err); \
-		/* __debugbreak();*/ \
+	   {printf("OpenGL Error :0x%x\n",err); \
+		 __debugbreak(); \
 		}\
 } 
 //checks if uniform location is valid
-#define ERRU(x) \
+#define CheckUniform(x) \
 if (x == -1) __debugbreak();
 #else
 #define ERR(x) x
