@@ -21,8 +21,12 @@ uniform samplerCube ShadowMap;
 uniform vec3 EyeWorldPos;
 uniform float MatSpecularIntensity;
 uniform float SpecularPower;
-uniform vec2 MapSize;
+uniform float FarPlane;
 uniform bool IsWhite;
+
+
+out vec4 Color;
+
 
 struct Data {
 	vec2 TexCoord; 
@@ -34,13 +38,21 @@ struct Data {
 
 float CalcShadowFactor(vec3 lightDir){
 
-//lightDir.z = -lightDir.z;
-float sampledDistance = texture(ShadowMap, lightDir).r;
-float distance = length(lightDir);
+lightDir.y = -lightDir.y;
+float sampledDepth = (texture(ShadowMap, lightDir).r)*FarPlane;
 
-if (distance<= sampledDistance+0.7 )
+
+if (sampledDepth+0.05 >FarPlane)
+return 1.0;
+
+float currentDepth = length(lightDir);
+
+//Color = vec4(vec3(sampledDepth / FarPlane), 1.0);  
+
+if (currentDepth<= sampledDepth+0.05 )
 return 1.0;
 else  return 0.0;
+
 }
 
 
@@ -70,8 +82,6 @@ float attenuation = l.Constant + l.Linear*lightDistance + l.Exp * lightDistance*
 return (ambientColor+shadowFactor*(diffuseColor+specularColor))/attenuation;
 }
 
-out vec4 Color;
-
 void main(){
 Data d ;
 d.TexCoord = TexCoordO;
@@ -85,5 +95,6 @@ Color =tex * TotalLight ;
 else {
 Color=vec4(1.0,1.0,1.0,1.0);
 }
-
+//vec3 lightDirection  = WorldPosO - Pointlight.Position;
+//Color =texture(ShadowMap,lightDirection);
 }

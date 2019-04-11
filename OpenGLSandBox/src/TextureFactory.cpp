@@ -1,4 +1,8 @@
 #include "TextureFactory.h"
+#include <cinttypes>
+
+
+ std::vector<Texture> TextureFactory::m_Textures;
 
 FreeImageEntry TextureFactory::Freeimg(const char* filename) {
 	//image format
@@ -23,9 +27,10 @@ FreeImageEntry TextureFactory::Freeimg(const char* filename) {
 	if (FreeImage_FIFSupportsReading(fif))
 		dib = FreeImage_Load(fif, filename);
 	//if the image failed to load, return failure
-	if (!dib)
-		assert(0);
-
+	if (!dib) {
+		printf("Error! opening file: '%s' \n", filename);
+		return {0,0,0};
+	}
 	//retrieve the image data
 	bits = FreeImage_GetBits(dib);
 	//get the image width and height
@@ -39,8 +44,12 @@ FreeImageEntry TextureFactory::Freeimg(const char* filename) {
 	return { width,height,dib };
 }
 
- Texture TextureFactory::CreateTexture(const char * fileName) {
+ Texture TextureFactory::CreateTexture(const char * fileName ) {
 	FreeImageEntry fi = Freeimg(fileName);
+	if (fi.Width == 0)
+	{
+		return {static_cast<GLuint>( -1) };
+	}
 	Texture tex;
 	BYTE* bits = FreeImage_GetBits(fi.Dib);
 
@@ -60,5 +69,38 @@ FreeImageEntry TextureFactory::Freeimg(const char* filename) {
 
 	//Free FreeImage's copy of the data
 	FreeImage_Unload(fi.Dib);
+
+	m_Textures.push_back(tex);
 	return tex;
 }
+
+  Texture TextureFactory::CreateTexture3D(const char*fileName[6]) {
+	 Texture t;
+	 glGenTextures(1, &t.TexID);
+	 glBindTexture(GL_TEXTURE_CUBE_MAP, t.TexID);
+	
+	 for (uint32_t i = 0; i < 6; ++i) {
+		 FreeImageEntry fi = Freeimg(fileName[i]);
+		
+		 BYTE* bits = FreeImage_GetBits(fi.Dib);
+
+		 unsigned int bpp = FreeImage_GetBPP(fi.Dib);
+		 if (bpp == 32)
+			 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, GL_RGBA, fi.Width, fi.Height, 0, GL_BGRA, GL_UNSIGNED_BYTE
+				 , bits);
+		 else if (bpp == 24)
+			 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, GL_RGB, fi.Width, fi.Height, 0, GL_BGR, GL_UNSIGNED_BYTE
+				 , bits);
+		
+			 FreeImage_Unload(fi.Dib);
+	 }
+	 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	 glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+ 
+	 m_Textures.push_back(t);
+	 return t;
+ 
+ }

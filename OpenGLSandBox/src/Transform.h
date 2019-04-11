@@ -25,20 +25,19 @@ class Transform {
     Translate.makeTranslate(m_Translate);
     Rotate.makeRotateTransform(m_Rotate);
     Scale.makeScale(m_Scale);
-    Camera.makeCameraTransform(m_Camera.m_Origin, m_Camera.m_Target,
+    Camera.LookAt(m_Camera.m_Origin, m_Camera.m_Origin+ m_Camera.m_Target,
                                m_Camera.m_Up);
     Transform = m_Perspective * Camera * Translate * Rotate * Scale;
     return Transform;
   }
 
   Matrix4f GetWorldTransform() {
-	  Matrix4f Scale, Rotate, Translate, Camera, Transform;
+	  Matrix4f Scale, Rotate, Translate, Transform;
 
 	  Translate.makeTranslate(m_Translate);
 	  Rotate.makeRotateTransform(m_Rotate);
 	  Scale.makeScale(m_Scale);
-	  Camera.makeCameraTransform(m_Camera.m_Origin, m_Camera.m_Target,
-		  m_Camera.m_Up);
+	  
 	  Transform =   Translate * Rotate * Scale;
 	  return Transform;
   }

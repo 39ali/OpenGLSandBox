@@ -60,8 +60,9 @@ public:
                                       const float FOV);
   Matrix4f &makeTranslate(const vec3 &vec3);
   Matrix4f &makeRotateTransform(const vec3 &vec3);
-  Matrix4f &makeCameraTransform(const vec3 &pos, const vec3 &target, const vec3 &up);
+  Matrix4f &LookAt(const vec3 &pos, const vec3 &target, const vec3 &up);
   Matrix4f &makeScale(const vec3 &vec3);
+ 
 };
 
 using mat4 = Matrix4f;

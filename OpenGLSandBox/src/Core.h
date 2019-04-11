@@ -1,7 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 #include <cstdio>
-
+#include <iostream>
 #ifdef _DEBUG
 #define CheckERR() \
 { \
@@ -12,10 +12,10 @@
 		}\
 } 
 //checks if uniform location is valid
-#define CheckUniform(x) \
-if (x == -1) __debugbreak();
+#define CheckUniform(loc, uniformName , shaderName) \
+if (loc == -1) std::cout<< "uniform location can not be found!: " << uniformName << "shader: "<< shaderName<<"\n";
 #else
-#define ERR(x) x
+#define CheckERR() 
 
-#define ERRU(x)
+#define CheckUniform(x)
 #endif

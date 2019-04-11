@@ -48,7 +48,7 @@ void ShadowMapDemo::RenderPass() {
 	//bind the shadowmap texture
 	m_ShadowMapFbo.BindForReading(GL_TEXTURE1);
 	GLuint tex = glGetUniformLocation(m_ShadowShader->GetProgram(), "ShadowMap");
-	CheckUniform(tex);
+//	CheckUniform(tex);
 	glUniform1i(tex, 1);
 
 	//render all  the thingss
@@ -72,7 +72,7 @@ void ShadowMapDemo::RenderPass() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_cement.TexID);
 	GLuint tex1 = glGetUniformLocation(m_ShadowShader->GetProgram(), "Sampler");
-	CheckUniform(tex1);
+//	CheckUniform(tex1);
 	glUniform1i(tex1, 0);
 
 	m_QuadMesh.Render();

@@ -9,18 +9,23 @@
 class Shader {
 public:
   Shader(const std::string &Vertexlocation,
-         const std::string &fragmetLocation) {
+         const std::string &fragmetLocation , const std::string& geometryShader=""):m_ShaderName(Vertexlocation) {
     m_ShaderProgram = glCreateProgram();
     m_Shaders[0]=AddShader(Vertexlocation, GL_VERTEX_SHADER);
     m_Shaders[1]=AddShader(fragmetLocation, GL_FRAGMENT_SHADER);
+	if(!geometryShader.empty())
+		m_Shaders[2] = AddShader(geometryShader, GL_GEOMETRY_SHADER);
 	LinkProgram();
   }
   ~Shader() {
+	  CheckERR();
 	  glDeleteProgram(m_ShaderProgram);
 	  CheckERR();
 	  glDeleteShader(m_Shaders[0]);
 	  CheckERR();
 	  glDeleteShader(m_Shaders[1]);
+	  CheckERR();
+	  glDeleteShader(m_Shaders[2]);
 	  CheckERR();
   }
 
@@ -44,6 +49,43 @@ public:
 	  CheckERR();
   }
 
+
+
+
+void SetUniform(const char* name , float val) {
+	 
+	GLuint loc =glGetUniformLocation(m_ShaderProgram, name);
+	glUniform1f(loc, val);
+	CheckUniform(loc, name, m_ShaderName);
+	//std::cout << "uniform location can not be found!: " << name << "shader: " << m_ShaderName << "/n";
+}
+
+
+
+void SetUniform(const char* name, int val) {
+
+	GLuint loc = glGetUniformLocation(m_ShaderProgram, name);
+	glUniform1i(loc, val);
+	CheckUniform(loc,name,m_ShaderName);
+}
+
+ void SetUniform(const char* name, const vec3& val) {
+
+	GLuint loc = glGetUniformLocation(m_ShaderProgram, name);
+	glUniform3fv(loc,1, &val);
+	CheckUniform(loc, name, m_ShaderName);
+}
+
+ void SetUniform(const char* name, const mat4& val) {
+
+	GLuint loc = glGetUniformLocation(m_ShaderProgram, name);
+	glUniformMatrix4fv(loc,1,GL_TRUE, val);
+	CheckUniform(loc, name, m_ShaderName);
+	CheckERR();
+}
+
+
+
 private:
   struct ShaderInfo {
     std::string content;
@@ -64,8 +106,10 @@ private:
 		  glDeleteProgram(m_ShaderProgram);
 		  glDeleteShader(m_Shaders[0]);
 		  glDeleteShader(m_Shaders[1]);
+		  glDeleteShader(m_Shaders[2]);
 		  return;
 	  }
+	  CheckERR();
   }
   //read shader from file ,compile and attach to program
   GLuint AddShader(const std::string &location, GLenum shaderType) {
@@ -112,6 +156,6 @@ private:
 
 private:
   GLuint m_ShaderProgram;
-  GLuint m_Shaders[2];
-  
+  GLuint m_Shaders[3];
+  std::string m_ShaderName;
 };

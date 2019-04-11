@@ -105,29 +105,36 @@
 		return *this;
 	}
 
-	Matrix4f& Matrix4f::makeCameraTransform(const vec3& pos ,const  vec3& target,const vec3& up) {
+	Matrix4f& Matrix4f::LookAt(const vec3& pos ,const  vec3& target,const vec3& up) {
 
-		vec3 TARGET=target.normalize();
-		vec3 RIGHT = up.cross(TARGET).normalize();
-		vec3 UP = TARGET.cross(RIGHT);
-		float m2[4][4];
+		vec3 Zaxis=(target-pos).normalize();
+		vec3 xAxis = up.cross(Zaxis).normalize();
+		vec3 yAxis = Zaxis.cross(xAxis).normalize();
 
-		Matrix4f m3;
-		
-		m3.m[0][0] = 1.0f; m3.m[0][1] = 0.0f; m3.m[0][2] = 0.0f; m3.m[0][3] = -pos.x;
-		m3.m[1][0] = 0.0f; m3.m[1][1] = 1.0f; m3.m[1][2] = 0.0f; m3.m[1][3] = -pos.y;
-		m3.m[2][0] = 0.0f; m3.m[2][1] = 0.0f; m3.m[2][2] = 1.0f; m3.m[2][3] = -pos.z;
-		m3.m[3][0] = 0.0f; m3.m[3][1] = 0.0f; m3.m[3][2] = 0.0f; m3.m[3][3] = 1.0f;
+		m[0][0] = xAxis.x;  m[0][1] = xAxis.y;  m[0][2] = xAxis.z;	  m[0][3] = -(xAxis.dot(pos));
+		m[1][0] = yAxis.x;  m[1][1] = yAxis.y;  m[1][2] = yAxis.z;	  m[1][3] = -(yAxis.dot(pos));
+		m[2][0] = Zaxis.x;  m[2][1] = Zaxis.y;  m[2][2] = Zaxis.z;	  m[2][3] = -(Zaxis.dot(pos));
+		m[3][0] = 0.0f;     m[3][1] =0.0f ;     m[3][2] =0.0f;		  m[3][3] = 1.0f;
 
-		m[0][0] = RIGHT.x;  m[0][1] = RIGHT.y;  m[0][2] = RIGHT.z;    m[0][3] = 0.0f;
-		m[1][0] = UP.x;     m[1][1] = UP.y;     m[1][2] = UP.z;		  m[1][3] = 0.0f;
-		m[2][0] = TARGET.x; m[2][1] = TARGET.y; m[2][2] = TARGET.z;   m[2][3] = 0.0f;
-		m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;		  m[3][3] = 1.0f;
-
-		*this = *this*m3;
+	
 		return *this;
 	}
-	
+
+	/*Matrix4f& Matrix4f::MakeCameraTransform(const vec3& pos, const  vec3& target, const vec3& up) {
+
+		vec3 Zaxis = (target - pos).normalize();
+		vec3 xAxis = up.cross(Zaxis).normalize();
+		vec3 yAxis = Zaxis.cross(xAxis).normalize();
+
+		m[0][0] = xAxis.x;  m[0][1] = xAxis.y;  m[0][2] = xAxis.z;	  m[0][3] = -(xAxis.dot(pos));
+		m[1][0] = yAxis.x;  m[1][1] = yAxis.y;  m[1][2] = yAxis.z;	  m[1][3] = -(yAxis.dot(pos));
+		m[2][0] = Zaxis.x;  m[2][1] = Zaxis.y;  m[2][2] = Zaxis.z;	  m[2][3] = -(Zaxis.dot(pos));
+		m[3][0] = 0.0f;     m[3][1] = 0.0f;     m[3][2] = 0.0f;		  m[3][3] = 1.0f;
+
+
+		return *this;
+	}
+	*/
 	// rotation is in degrees
 	Matrix4f& Matrix4f::makeRotateTransform(const vec3& vec3) {
 		Matrix4f rx, ry, rz;
@@ -154,3 +161,4 @@
 		*this = rz *ry * rx;
 		return *this;
 	}
+

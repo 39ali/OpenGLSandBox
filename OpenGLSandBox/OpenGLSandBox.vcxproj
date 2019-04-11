@@ -38,6 +38,7 @@
     <ClInclude Include="src\ShadowDemo\ShadowMapFbo.h" />
     <ClInclude Include="src\ShadowMapPointLight\ShadowMapPointFbo.h" />
     <ClInclude Include="src\ShadowMapPointLight\ShadowMapPointLight.h" />
+    <ClInclude Include="src\ShadowMapPointLight\SkyBox.h" />
     <ClInclude Include="src\TextureFactory.h" />
     <ClInclude Include="src\Transform.h" />
   </ItemGroup>

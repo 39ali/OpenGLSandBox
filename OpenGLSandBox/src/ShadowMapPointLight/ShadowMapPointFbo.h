@@ -10,14 +10,14 @@ public:
 	~ShadowMapPointFbo() {
 		glDeleteFramebuffers(1, &m_Fbo);
 		glDeleteTextures(1, &m_ShadowMap);
-		glDeleteTextures(1 ,& m_Depth);
+		//glDeleteTextures(1 ,& m_Depth);
 	
 	}
 
 	void Init(unsigned int width, unsigned int height) {
 		m_ShadowWidth = width;
 		m_ShadowHeight = height;
-		//glGenFramebuffers(1, &m_Fbo);
+		
 		//CheckERR();
 		////create the depth buffer
 		//glGenTextures(1, &m_Depth);
@@ -31,17 +31,17 @@ public:
 
 		//CheckERR();
 
-
+		glGenFramebuffers(1, &m_Fbo);
 		//create the cubemap
 		
 	    glGenTextures(1, &m_ShadowMap);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_ShadowMap);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
+		;
 	
 		CheckERR();
 		for (uint32_t i = 0; i < 6; i++) {
@@ -49,8 +49,11 @@ public:
 				0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 			CheckERR();
 		}
+
+
+		
 		glBindFramebuffer(GL_FRAMEBUFFER, m_Fbo);
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,m_Depth, 0);
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,m_ShadowMap, 0);
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
 		CheckERR();
@@ -63,9 +66,9 @@ public:
 		CheckERR();
 	}
 
-	void BindForWriting(GLenum face) {
+	void BindForWriting() {
 		glViewport(0, 0, m_ShadowWidth, m_ShadowHeight);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_Fbo);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_Fbo);
 		glClear(GL_DEPTH_BUFFER_BIT);
 		
 		CheckERR();
@@ -82,11 +85,11 @@ public:
 
 	}
 
-	vec2 GetShadowMapSize()const { return {m_ShadowWidth,m_ShadowHeight}; }
+	vec2 GetShadowMapSize()const { return {(float)m_ShadowWidth,(float)m_ShadowHeight}; }
 
 private :
 GLuint	m_Fbo;
 GLuint m_ShadowMap;
-GLuint m_Depth;
+
 unsigned int m_ShadowWidth, m_ShadowHeight;
 };

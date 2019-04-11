@@ -15,7 +15,6 @@
 
 		Vector3f operator+(const Vector3f& vec3) const;
 		Vector3f& operator+=(const Vector3f& vec3);
-
 		Vector3f operator-(const Vector3f& vec3) const;
 		Vector3f& operator-=(const Vector3f& vec3);
 
@@ -34,6 +33,11 @@
 
 		inline const float operator[](unsigned int index)const {
 			return v[index];
+		}
+		
+		Vector3f operator-()const {
+		
+			return { -x,-y,-z };
 		}
 
 		union {
@@ -60,7 +64,12 @@
 			return Vector3f(*this);
 	}
 
-	inline float Vector3f::length() const { return sqrt(x * x + y * y + z * z); }
+	inline float Vector3f::length() const { return sqrt(x * x + y * y + z * z); };
 	
+	
+
+
+	
+
 using vec3 = Vector3f;
 

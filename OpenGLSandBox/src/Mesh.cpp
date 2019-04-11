@@ -12,7 +12,7 @@ void Mesh::LoadMesh(const std::string &filename) {
   else {
     printf("Error Parsing '%s': '%s' \n ", filename.c_str(),
            importer.GetErrorString());
-    assert(0);
+    assert("Error ! unable to open a file "&&0);
   }
 }
 
@@ -103,8 +103,10 @@ void Mesh::InitMaterials(const aiScene *pScene, const std::string &filename) {
 		if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
 			aiString path;
 			if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &path, NULL, 0, 0, 0, 0) == AI_SUCCESS) {
+				
 				std::string fullPath = dir + "/" + path.data;
 				m_Textures[i] = TextureFactory::CreateTexture(fullPath.c_str());
+				if(m_Textures[i].TexID!=0)
 				printf("Loaded texture '%s' \n", fullPath.c_str());
 			}
 		}
